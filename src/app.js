@@ -9,6 +9,8 @@ const mysql_1 = __importDefault(require("mysql"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const app = (0, express_1.default)();
 const port = 3000;
+//const angularDistPath = path.join(__dirname, '../client/dist/client'); // Adjust the 'client/dist/client' path based on your Angular app's build output
+//app.use(express.static(angularDistPath));
 const db = mysql_1.default.createConnection({
     host: 'localhost',
     user: 'root',
@@ -18,10 +20,6 @@ const db = mysql_1.default.createConnection({
 app.use(body_parser_1.default.urlencoded({ extended: true }));
 app.use('/images', express_1.default.static('images'));
 app.use('/css', express_1.default.static('css'));
-app.get('/css/stylesheet.css', (req, res) => {
-    res.setHeader('Content-Type', 'text/css');
-    res.sendFile(path_1.default.join(__dirname, 'css', 'stylesheet.css'));
-});
 db.connect((err) => {
     if (err)
         throw err;
@@ -81,6 +79,37 @@ app.delete('/delete/:id', (req, res) => {
         res.status(200).send('Project deleted successfully');
     });
 });
+// rest API
+app.get('/projects', (req, res) => {
+    const sql = 'SELECT * FROM projects';
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        res.json(results);
+    });
+});
+// REST API endpoint to get a single project by ID
+app.get('/projects/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = 'SELECT * FROM projects WHERE id = ?';
+    db.query(sql, [id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ error: 'Internal server error' });
+        }
+        if (results.length > 0) {
+            res.json(results[0]);
+        }
+        else {
+            res.status(404).json({ error: 'Project not found' });
+        }
+    });
+});
+//app.get('*', (req: Request, res: Response) => {
+// res.sendFile(path.join(angularDistPath, 'index.html'));
+//});
 // Configure EJS as the view engine
 app.set('view engine', 'ejs');
 app.set('views', path_1.default.join(__dirname, '../views'));

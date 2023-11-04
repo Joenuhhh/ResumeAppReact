@@ -1,0 +1,27 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "commonjs", // Changed from ES2022 to commonjs
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022"
+      // Removed "dom" because it is not needed for Node.js environment
+    ]
+  }
+  // Removed "angularCompilerOptions" because it's specific to Angular
+}
