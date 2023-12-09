@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images\Angular.png">
+   
     <title>Home</title>
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -85,59 +85,53 @@
         </div>
     </nav>
 
-
     <div class="container mt-5">
         <div class="card-container p-4">
             <div class="row">
-                <% cards.forEach(card=> { %>
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
+                <% cards.forEach(card => { %>
+                    <div class="col-md-4 mb-4 d-flex align-items-stretch"> <!-- Flexbox for equal height -->
+                        <div class="card w-100"> <!-- Full width within column -->
                             <% if(card.image_filepath) { %>
                                 <img src="<%= card.image_filepath %>" class="card-img-top" alt="<%= card.name %>">
-                                <% } %>
-                                    <div class="card-body">
-                                        <h5 class="card-title">
-                                            <%= card.name %>
-                                        </h5>
-                                        <p class="card-text">
-                                            <%= card.description %>
-                                        </p>
-                                        <p><strong>Language:</strong>
-                                            <%= card.language %>
-                                        </p>
-                                        <p><strong>Skills:</strong>
-                                            <%= card.skills %>
-                                        </p>
-
-                                        <div class="row">
-                                            <div class="col">
-                                                <a href="/edit/<%= card.id %>"
-                                                    class="btn btn-primary btn-sm btn-block">Update</a>
-                                            </div>
-
-                                            <div class="col">
-                                                <% if(card.youtube_link) { %>
-                                                    <a href="<%= card.youtube_link %>" target="_blank"
-                                                        class="btn btn-primary btn-sm btn-block">Watch on YouTube</a>
-                                                    <% } else { %>
-                                                        <!-- This is a placeholder for alignment, invisible to users -->
-                                                        <button style="visibility: hidden;"
-                                                            class="btn btn-primary btn-sm btn-block">Placeholder</button>
-                                                        <% } %>
-                                            </div>
-                                            <div class="col">
-                                                <button onclick="deleteProject('<%= card.id %>')"
-                                                    class="btn btn-danger btn-sm btn-block">Delete</button>
-                                            </div>
-                                        </div>
-
+                            <% } %>
+                            <div class="card-body d-flex flex-column"> <!-- Flexbox to push buttons to bottom -->
+                                <h5 class="card-title">
+                                    <%= card.name %>
+                                </h5>
+                                <p class="card-text" style="flex-grow: 1; overflow-y: auto;"> <!-- Scroll for overflow text -->
+                                    <%= card.description %>
+                                </p>
+                                <p><strong>Language:</strong>
+                                    <%= card.language %>
+                                </p>
+                                <p><strong>Skills:</strong>
+                                    <%= card.skills %>
+                                </p>
+    
+                                <div class="row mt-auto"> <!-- Push to bottom using flexbox -->
+                                    <div class="col">
+                                        <a href="/edit/<%= card.id %>" class="btn btn-primary btn-sm btn-block">Update</a>
                                     </div>
+    
+                                    <div class="col">
+                                        <% if(card.youtube_link) { %>
+                                            <a href="<%= card.youtube_link %>" target="_blank" class="btn btn-primary btn-sm btn-block">Watch on YouTube</a>
+                                        <% } else { %>
+                                            <button style="visibility: hidden;" class="btn btn-primary btn-sm btn-block">Placeholder</button>
+                                        <% } %>
+                                    </div>
+                                    <div class="col">
+                                        <button onclick="deleteProject('<%= card.id %>')" class="btn btn-danger btn-sm btn-block">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <% }); %>
+                <% }); %>
             </div>
         </div>
     </div>
+    
 
 </body>
 
